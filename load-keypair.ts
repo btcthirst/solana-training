@@ -1,8 +1,9 @@
 import "dotenv/config";
-import { getKeypairFromEnvironment } from "@solana-developers/helpers";
+import { Keypair } from "@solana/web3.js";
 
-const keypair = getKeypairFromEnvironment("SECRET_KEY");
+const secretKey = new Uint8Array(JSON.parse(process.env["SECRET_KEY"]!))
+const keypair = Keypair.fromSecretKey(secretKey);
 
 console.log(
-  `✅ Finished! We've loaded our keypair securely, using an env file! Our public key is: ${keypair.secretKey}`
+  `✅ Finished! We've loaded our keypair securely, using an env file! Our public key is: ${keypair.publicKey.toBase58()}`
 );
