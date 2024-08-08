@@ -5,5 +5,5 @@
 ``bash
 npx esrun generate-keypair.ts
 npx esrun load-keypair.ts
-
+npx esrun special-generator.ts
 ``
