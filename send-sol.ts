@@ -7,7 +7,8 @@ import {
     Transaction,
     clusterApiUrl,
     Connection,
-    sendAndConfirmTransaction
+    sendAndConfirmTransaction,
+    TransactionInstruction
   } from "@solana/web3.js";
   
   let privateKey = process.env["SECRET_KEY"];
@@ -34,6 +35,15 @@ import {
     lamports: 0.01 * LAMPORTS_PER_SOL,
     });
     transaction.add(sendSolInstruction);
+    transaction.add(
+        new TransactionInstruction({
+          keys: [
+            { pubkey: sender.publicKey, isSigner: true, isWritable: true },
+          ],
+          data: Buffer.from("Memo message to send in this transaction", "utf-8"),
+          programId: new PublicKey("MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr"),
+        }),
+      );
 
     const signature = await sendAndConfirmTransaction(connection, transaction, [
     sender,
