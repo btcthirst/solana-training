@@ -22,3 +22,21 @@ import {
   
   console.log(`🔑 Our public key is: ${sender.publicKey.toBase58()}`);
   
+  const recipient = new PublicKey("2mvDeTiccBvwyNiMx6mFBUSVWJyujJeGaWZwkuirNQWG");
+
+    console.log(`💸 Attempting to send 0.01 SOL to ${recipient.toBase58()}...`);
+
+    const transaction = new Transaction();
+
+    const sendSolInstruction = SystemProgram.transfer({
+    fromPubkey: sender.publicKey,
+    toPubkey: recipient,
+    lamports: 0.01 * LAMPORTS_PER_SOL,
+    });
+    transaction.add(sendSolInstruction);
+
+    const signature = await sendAndConfirmTransaction(connection, transaction, [
+    sender,
+    ]);
+
+    console.log(`✅ Transaction confirmed, signature: ${signature}!`);
